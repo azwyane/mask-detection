@@ -21,11 +21,11 @@ haarcascade = cv2.CascadeClassifier(
 )
 inference ={ 
     0:{
-        'result':'maskless',
+        'result':'mask',
         'color':(0,255,0)
     },
     1:{
-        'result':'mask',
+        'result':'maskless',
         'color':(255,0,0)
     }
 }
@@ -80,7 +80,11 @@ if kwargs.get('picture_mode'):
         if kwargs.get('source'):
             try:
                 image = cv2.imread(kwargs['source'])
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
                 infered = detect_mask(image)
+                infered = cv2.cvtColor(infered, cv2.COLOR_RGB2BGR)
+
                 cv2.imwrite('out.png',infered)
             except Exception as e:
                 print(f"No such image: {kwargs['source']} found ")
@@ -103,7 +107,7 @@ else:
         try:
             _,image = cap.read()
         
-
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image = cv2.flip(image,1,1) 
 
         except:
@@ -111,6 +115,7 @@ else:
             break
 
         image = detect_mask(image)
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
         cv2.imshow('CAMERA',  image)
         cv2.waitKey(10)

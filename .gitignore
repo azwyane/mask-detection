@@ -1,3 +1,8 @@
 .venv
 *.pyc
 __pycache__
+Dataset
+test
+train
+*.zip
+*.h5
